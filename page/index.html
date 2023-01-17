@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+
+<html lang="zh-Hant-TW" class="h-100">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="" />
+    <meta name="referrer" content="no-referrer" />
+    <!-- <meta name="theme-color" content="#7952b3" /> -->
+
+    <title>HOME</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="canonical"
+      href="https://bootstrap5.hexschool.com/docs/5.1/examples/sticky-footer-navbar/"
+    />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+      crossorigin="anonymous"
+    />
+
+    <!-- Bootstrap ICON -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"
+    />
+
+    <style>
+      /* * {
+        /* list-style: none; */
+      /* } */ 
+
+      .js-post-list .card {
+        height: 300px;
+      }
+
+      .card-body img {
+        width: 150px;
+        height: auto;
+      }
+
+      .circular-landscape {
+        display: inline-block;
+        position: relative;
+        width: 24px;
+        height: 24px;
+        overflow: hidden;
+        border-radius: 50%;
+      }
+
+      .circular-landscape img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        margin-left: -0.25px;
+      }
+
+      .imageChoose {
+        width: 100%; /* You can set the dimensions to whatever you want */
+        height: 200px;
+        object-fit: cover;
+      }
+
+      .imgCustomer{
+        width: 86px;
+        height: 86px;
+        object-fit: cover;
+      }
+
+      .textColor {
+        color: #FF4366;
+      }
+
+      .border-danger{
+        border-color: #FF4366 !important ;
+      }
+
+      .qaLength{
+        max-width: 500px;
+        width: 100%;
+      }
+    </style>
+  </head>
+
+  <body class="d-flex flex-column h-100">
+    <header class="sticky-top">
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <!-- Container-wrapper -->
+        <section class="container-fluid">
+          <!-- Navbar brand -->
+          <a class="navbar-brand me-2" href="/page/index.html"><img src="/page/images/motor.svg" alt=""></a>
+
+          <!-- Toggle button -->
+          <button
+            type="button"
+            class="navbar-toggler"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarCollapse"
+            aria-controls="navbarCollapse"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <!-- Collapsible-wrapper -->
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav me-auto mb-2 mb-md-0">
+              <!-- <li class="nav-item">
+                <a
+                  class="nav-link active"
+                  aria-current="page"
+                  href="/playground.html"
+                >
+                  測試用
+                </a>
+              </li> -->
+
+              <li class="nav-item">
+                <a class="nav-link fw-bold" href="/page/motorSiteArticleLists.html">台灣機車論壇</a>
+              </li>
+            </ul>
+            <!-- end of Left-links -->
+
+            <div class="d-flex align-items-center">
+              <ul class="navbar-nav js-user-menu">
+                <!-- #NOTE: check IF-login and inject dropdown-btns -->
+              </ul>
+              <!-- end of User-btns -->
+
+              <div class="js-guest-menu">
+                <!-- #REVIEWS:  -->
+                <a href="login.html" class="btn btn-sm btn-outline-primary text-muted px-5 me-4">
+                  登入
+                </a>
+
+                <a href="register.html" class="btn btn-primary btn-sm me-3 px-5"
+                  >註冊</a
+                >
+              </div>
+              <!-- end of GUEST-btns -->
+            </div>
+          </div>
+          <!-- end of Collapsible-wrapper -->
+        </section>
+        <!-- end of Container-wrapper -->
+      </nav>
+    </header>
+
+    <!-- Begin page content -->
+    
+  <div class="p-4 p-md-5 text-center d-flex justify-content-center bg-cover" style="background-image: url(/page/images/banner.jpg);background-position: center center ; background-size: cover;box-shadow: inset 0 0 0 1000px rgba(58, 135, 226, 0.6);">
+      <div class="col-md-12">
+        <h1 class="display-5 fst-italic text-white">台灣最火熱的機車論壇，想知道什麼是防衛駕駛嗎?想要討論機車維修大小事嗎?歡迎參觀台灣機車論壇!</h1 >
+          <div class="col-md-7 mx-auto py-5">
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="搜尋台灣機車論壇......" aria-label="搜尋台灣機車論壇" aria-describedby="searchButton">
+              <button class="btn btn-light" type="button" id="searchButton"><i class="bi bi-search"></i></button>
+            </div>
+          </div>
+      </div>
+  </div>
+
+  <div class="p-4 p-md-5 d-flex justify-content-center bg-cover" style="background-color:#3A87E2">
+    <div class="col-md-8">
+      <h1 class="text-white text-center">是否曾遇過以下狀況?</h1 >
+        <ul class="d-flex flex-column justify-content-center py-3 text-white">
+          <li class="py-2"><h3>新手上路搞不清楚交通狀況，不知道怎麼應變做防禦駕駛</h3></li>
+          <li class="py-2"><h3>曾在馬路上被三寶擊落過</h3></li>
+          <li class="py-2"><h3>機車故障要維修不知道是不是公道價</h3></li>
+        </ul>
+    </div>
+</div>
+<div class="p-3 p-md-4 d-flex justify-content-center bg-cover" style="background-color:#1E426C">
+  <div class="col-md-12">
+    <h1 class="text-white text-center">台灣機車論壇給您交流的平台解決您的煩惱</h1>
+  </div>
+</div>
+
+<div class="p-5 p-md-5 d-flex justify-content-center bg-cover" style="background-color:#fff">
+  <div class="col-md-12">
+    <h2 class="text-center mb-5">台灣機車論壇為什麼值得您的選擇?</h2>
+    <ul class="d-flex list-unstyled justify-content-evenly flex-column flex-md-row align-items-center">
+      <li>
+        <div class="card border-0" style="width: 18rem;">
+        <img src="/page/images/台灣機車論壇為什麼值得您的選擇.1.jpg" class="imageChoose" alt="...">
+        <div class="card-body">
+          <h6 class="card-title text-center">簡單乾淨的使用介面</h5>
+        </div>
+        </div>
+      </li>
+      <li>
+        <div class="card border-0" style="width: 18rem;">
+          <img src="/page/images/台灣機車論壇為什麼值得您的選擇.2.jpg" class="imageChoose" alt="...">
+          <div class="card-body">
+            <h6 class="card-title text-center">友善尊重包容的討論風氣</h5>
+          </div>
+          </div>
+      </li>
+      <li>
+        <div class="card border-0" style="width: 18rem;">
+          <img src="/page/images/台灣機車論壇為什麼值得您的選擇.3.jpg" class="imageChoose" alt="...">
+          <div class="card-body">
+            <h6 class="card-title text-center">自由自在的發文討論不一言堂</h5>
+          </div>
+          </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="p-5 p-md-5 d-flex justify-content-center bg-cover" style="background-color:rgba(107, 172, 255, 0.3)">
+  <div class="col-md-12">
+    <h2 class="text-center mb-5">用過的都說好!來看看用戶的回饋</h2>
+    <ul class="d-flex list-unstyled justify-content-center align-items-center flex-column">
+      <li>
+        <div class="card mb-3" style="max-width: 540px;">
+          <div class="row g-0">
+            <div class="col-md-4 d-flex list-unstyled justify-content-center align-items-center flex-column">
+              <img src="\page\images\customerEvaluation1.jpg" class="imgCustomer rounded-circle my-3" alt="...">
+              <h6 class="card-title mb-3">Lily 康</h5>
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                
+                <p class="card-text">我最近剛考到機車駕照，可是看到新聞每天都有車禍，對於騎車上路感到怕怕的，不知道騎機車有沒有什麼注意事項，還好論壇可以爬文跟發問，幫我建立什麼叫防禦駕駛的觀念，讓我能夠放心的騎車上路了！</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="card mb-3" style="max-width: 540px;">
+          <div class="row g-0 flex-row-reverse">
+            <div class="col-md-4 d-flex list-unstyled justify-content-center align-items-center flex-column">
+              <img src="\page\images\customerEvaluation2.jpg" class="imgCustomer rounded-circle my-3" alt="...">
+              <h6 class="card-title mb-3">吳雪莉</h5>
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                
+                <p class="card-text">每年因為交通意外死亡的人數達3000人，可是政府卻不正視交通安全交通觀念落後，我前天才遇到一個三寶逆向行駛，加上天雨路滑，車禍滑到受傷真的很難過，想知道以後遇到同樣的狀況可以防止再發生意外，我把過程發文以後得到許多回應，讓我了解如何應用防衛駕駛觀念保平安。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="card mb-3" style="max-width: 540px;">
+          <div class="row g-0 d-flex">
+            <div class="col-md-4 d-flex list-unstyled justify-content-center align-items-center flex-column">
+              <img src="\page\images\customerEvaluation3.jpg" class="imgCustomer rounded-circle my-3" alt="...">
+              <h6 class="card-title mb-3">藍亦明</h5>
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                
+                <p class="card-text">我最近剛考到機車駕照，可是看到新聞每天都有車禍，對於騎車上路感到怕怕的，不知道騎機車有沒有什麼注意事項，還好論壇可以爬文跟發問，幫我建立什麼叫防禦駕駛的觀念，讓我能夠放心的騎車上路了！</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="p-5 p-md-5 d-flex justify-content-center bg-cover" style="background-color:#fff">
+  <div class="col-md-5">
+    <h2 class="text-center mb-5 textColor">Q&A</h2>
+    <ul class="d-flex list-unstyled justify-content-center align-items-center flex-column">
+      <li class="w-100">
+            <h3 class="border-bottom border-danger border-3">1.如何註冊?</h3>
+            <p class="textColor">網站的右上角可以點選註冊按鈕進行註冊。</p>
+      </li>
+      <li class="w-100">
+        <h3 class="border-bottom border-danger border-3 qaLength">2.註冊需要費用嗎?</h3>
+        <p class="textColor">網站的註冊是免費的喔!</p>
+      </li>
+      <li class="w-100">
+        <h3 class="border-bottom border-danger border-3 qaLength">3.訪客可否使用討論區?</h3>
+        <p class="textColor">本站對於大部份的網站內容均開放給訪客檢視, 但是發言必須加入會員。</p>
+      </li>
+      <li class="w-100">
+        <h3 class="border-bottom border-danger border-3 qaLength">4.修改密碼該如何處理?</h3>
+        <p class="textColor">登入之後進入網站右上角會員專區，可在會員專區畫面重新修改密碼。</p>
+      </li>
+    </ul>
+  </div>
+</div>
+
+    <footer class="footer mt-auto py-3" style="background-color:#1E426C">
+      <div class="container">
+        <h6 class="text-white text-center py-3">Copyright©2023鄭佩珊，僅供前端練習無商業使用</h6>
+        <!-- <a class="nav-link text-muted" href="/admin">前往後台</a> -->
+      </div>
+    </footer>
+    <!-- end of DOM -->
+
+    <!-- Bootstrap5 JavaScript Bundle with Popper -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
+
+    <script src="./helpers/renderUserMenu.js"></script>
+
+    <!-- MAIN -->
+    <script>
+      // const BASE_URL = 'http://localhost:3000';
+      const BASE_POST_URL = `${BASE_URL}/664/posts`;
+
+      const domMsg = document.querySelector('.js-msg');
+      const domPostList = document.querySelector('.js-post-list');
+      /* end of definition */
+
+      function getLoggedID() {
+        return localStorage.getItem('userId') || 0;
+      }
+      /* end of hasLogged() */
+
+      /**
+       * #Step-2: print html with post list
+       * @param { Array } posts
+       * @param { String } template
+       * @returns { String } htmlContent
+       */
+      function templateOfPosts(posts, template = ``) {
+        console.log('posts:::', JSON.stringify(posts, null, 2));
+        /*
+         * #NOTE: Array.forEach() do NOT `return`
+         */
+        posts.forEach(function (post) {
+          /**
+           * - IF post.body === null
+           *   THEN return '' to display nothing
+           *
+           * @type { String } article
+           */
+          const article = post.body ? post.body : '';
+
+          // <small class="text-muted">
+          //   <code>${post.id}</code>
+          // </small>
+          template += `
+            <li
+              data-id='${post.id}'
+              class="col-sm-6 col-lg-4 mb-4"
+            >
+              <div class="card">
+                <section class="card-body">
+
+                  <div class="d-flex justify-content-end align-items-center p-0">
+                    <a href="./post.html?postId=${post.id}" class="pe-auto">延伸閱讀</a>
+                  </div>
+
+                  <h3 class="card-title  text-truncate">
+                    ${post.title}
+                  </h3>
+
+                  <article class="card-text  text-truncate">
+                    ${article}
+                  </article>
+
+                </section>
+              </div>
+            </li>
+          `;
+        });
+        /* end of posts.forEach() */
+
+        return template;
+      }
+      /* end of templateOfPosts() */
+
+      /**
+       * #Step-1: `GET` data from API
+       */
+      function renderPosts() {
+        const url = `${BASE_POST_URL}`;
+
+        axios
+          .get(url)
+          .then(function (response) {
+            // console.log('GET-Posts:::', JSON.stringify(response, null, 2));
+
+            if (response.status === 200) {
+              // #Step-2
+              const postsData = response.data;
+              const htmlContent = templateOfPosts(postsData);
+
+              // #Step-3
+              domPostList.innerHTML = htmlContent;
+            }
+            /* end of res-OK */
+          })
+          .catch(function (error) {
+            // console.log('error:::', JSON.stringify(error, null, 2));
+
+            domMsg.innerHTML = error?.response?.status || error;
+          });
+        /*  end of axios */
+      }
+      /* end of renderPosts() */
+
+      /**
+       * #Step-0: after page refresh
+       */
+      function init() {
+        renderPosts();
+      }
+      /* end of init() */
+
+      // MAIN
+      init();
+    </script>
+    <!-- end of script -->
+  </body>
+</html>
