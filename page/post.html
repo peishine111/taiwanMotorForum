@@ -75,7 +75,7 @@
         <!-- Container-wrapper -->
         <section class="container-fluid">
           <!-- Navbar brand -->
-          <a class="navbar-brand me-2" href="/">LOGO</a>
+          <a class="navbar-brand me-2" href="/page/index.html"><img src="/page/images/motor.svg" alt=""></a>
 
           <!-- Toggle button -->
           <button
@@ -93,7 +93,7 @@
           <!-- Collapsible-wrapper -->
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav me-auto mb-2 mb-md-0">
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <a
                   class="nav-link active"
                   aria-current="page"
@@ -101,10 +101,10 @@
                 >
                   測試用
                 </a>
-              </li>
+              </li> -->
 
               <li class="nav-item">
-                <a class="nav-link" href="/example">原版範例</a>
+                <a class="nav-link fw-bold" href="/page/index.html">台灣機車論壇</a>
               </li>
             </ul>
             <!-- end of Left-links -->
@@ -117,12 +117,12 @@
 
               <div class="js-guest-menu">
                 <!-- #REVIEWS:  -->
-                <a href="login.html" class="btn btn-sm text-muted px-3 me-2">
+                <a href="login.html" class="btn btn-sm btn-outline-primary text-muted px-5 me-4">
                   登入
                 </a>
 
-                <a href="register.html" class="btn btn-primary btn-sm me-3"
-                  >免費註冊</a
+                <a href="register.html" class="btn btn-primary btn-sm me-3 px-5"
+                  >註冊</a
                 >
               </div>
               <!-- end of GUEST-btns -->
@@ -134,27 +134,63 @@
       </nav>
     </header>
 
+    <div class="d-flex" style="background-color:rgba(107, 172, 255, 0.3)">
+      <ul class="d-flex flex-row navbar-nav me-auto mb-2 mb-md-0">
+        <!-- <li class="nav-item">
+          <a
+            class="nav-link active"
+            aria-current="page"
+            href="/playground.html"
+          >
+            測試用
+          </a>
+        </li> -->
+
+        <li class="nav-item ms-3 me-3">
+          <a class="nav-link" href="/page/motorSiteArticleLists.html">文章列表</a>
+        </li>
+        <li class="nav-item me-3">
+          <a class="nav-link" href="/page/motorSiteEssence.html">精華區</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/page/motorSiteRules.html">版規</a>
+        </li>
+      </ul>
+      <!-- end of Left-links -->
+
+      <div class="d-flex align-items-center">
+        <ul class="navbar-nav js-user-menu">
+          <!-- #NOTE: check IF-login and inject dropdown-btns -->
+        </ul>
+        <!-- end of User-btns -->
+
+        <div class="js-guest-menu">
+          <!-- #REVIEWS:  -->
+          <a href="post.html" class="btn btn-sm btn-primary px-3 me-5">
+            回復文章
+          </a>
+        </div>
+        <!-- end of GUEST-btns -->
+      </div>
+    </div>
+
     <!-- Begin page content -->
     <main class="flex-shrink-0">
       <div class="container py-2">
-        <h2 class="py-1">單筆內文</h2>
-
-        <div class="js-need-login">
-          <div class="js-bookmark-state">收藏狀態：</div>
-
-          <input
-            type="button"
-            value="加入收藏"
-            class="js-add-bookmarks btn btn-light"
-          />
-
-          <input
-            type="button"
-            value="取消收藏"
-            class="js-remove-bookmarks btn btn-light"
-          />
+        <div class="row">
+          <div class="col-md-7 mx-auto">
+            <div class="articleBody border p-3">
+              <h6>Author: Sunny</h6>
+              <h3>標題標題</h3>
+              <p class="d-flex justify-content-between">2023/01/01 17:05<button type="button" class="btn btn-outline-primary btn-sm">編輯</button></p>
+              <p>content...content...</p>
+            </div>
+            <ul class="comments border p-3">
+              <li class="list-unstyled"><span class="me-2">id</span><span class="me-2">accountName:</span><span class="me-2">commentContent</span><span class="me-2">createdTime</span></li>
+            </ul>
+          </div>
         </div>
-
+        
         <ul class="js-post-list my-4 row list-unstyled">
           <!-- <ul class="js-post-list"> -->
           <!-- inject data from API -->
@@ -186,16 +222,16 @@
     <!-- MAIN -->
     <script>
       // const BASE_URL = 'http://localhost:3000';
-      const BASE_POST_URL = `${BASE_URL}/664/posts`;
+      const BASE_POST_URL = `${BASE_URL}/articles`;
       const BOOKMARKS_URL = `${BASE_URL}/600/bookmarks`;
       const USERS_URL = `${BASE_URL}/600/users`;
 
       const domMsg = document.querySelector('.js-msg');
-      const domPostList = document.querySelector('.js-post-list');
+      const domPostList = document.querySelector('.articleBody');
       const domState = document.querySelector('.js-bookmark-state');
+      const domCommentList = document.querySelector('.comments');
 
-      const btnAddBookmark = document.querySelector('.js-add-bookmarks');
-      const btnRemoveBookmark = document.querySelector('.js-remove-bookmarks');
+      let articleData = [];
 
       let bookmarkId = 0;
       /* end of definition */
@@ -205,132 +241,39 @@
       }
       /* end of hasLogged() */
 
-      function renderBookmarkState() {
-        const params = new URLSearchParams(document.location.search);
-        const postId = params.get('postId') || 1;
-        console.log('postId:::', postId);
-
-        const userId = getLoggedID();
-        // users/1/bookmarks?postId=2
-        const url = `${USERS_URL}/${userId}/bookmarks?postId=${postId}`;
-
-        console.log('url:::', url);
-
-        axios
-          .get(url)
-          .then(function (response) {
-            console.log('GET-:::', JSON.stringify(response, null, 2));
-
-            if (response.data.length !== 0) {
-              bookmarkId = response.data[0].id;
-
-              domState.innerHTML = `                
-                  已收藏
-              `;
-
-              btnRemoveBookmark.style.display = 'block';
-              btnAddBookmark.style.display = 'none';
-            }
-            /* end of res-OK */
-
-            if (response.data.length === 0) {
-              domState.innerHTML = `                
-                  未收藏
-              `;
-
-              btnRemoveBookmark.style.display = 'none';
-              btnAddBookmark.style.display = 'block';
-            }
-          })
-          .catch(function (error) {
-            // console.log('error:::', JSON.stringify(error, null, 2));
-
-            domMsg.innerHTML = error?.response?.status || error;
-          });
-        /*  end of axios */
-      }
-      /* end of renderBookmarkBtn() */
-
-      function removeBookmark() {
-        console.log(bookmarkId);
-
-        const url = `${BOOKMARKS_URL}/${bookmarkId}`;
-
-        axios
-          .delete(url)
-          .then(function (response) {
-            console.log('DELETE-:::', JSON.stringify(response, null, 2));
-
-            if (response.status === 200) {
-              console.log('200');
-
-              renderBookmarkState();
-            }
-            /* end of res-OK */
-          })
-          .catch(function (error) {
-            // console.log('error:::', JSON.stringify(error, null, 2));
-
-            domMsg.innerHTML = error?.response?.status || error;
-          });
-        /*  end of axios */
-      }
-      /* end of removeBookmark() */
-
-      function addBookmark() {
-        const params = new URLSearchParams(document.location.search);
-        const postId = params.get('postId') || 1;
-        console.log('postId:::', postId);
-
-        const url = `${BASE_POST_URL}/${postId}/bookmarks`;
-
-        const data = {
-          userId: getLoggedID(),
-        };
-
-        axios
-          .post(url, data)
-          .then(function (response) {
-            console.log('GET-:::', JSON.stringify(response, null, 2));
-
-            if (response.status === 201) {
-              renderBookmarkState();
-            }
-            /* end of res-OK */
-          })
-          .catch(function (error) {
-            // console.log('error:::', JSON.stringify(error, null, 2));
-
-            domMsg.innerHTML = error?.response?.status || error;
-          });
-        /*  end of axios */
-      }
-      /* end of addBookmark() */
-
       function renderPostInfo() {
         const params = new URLSearchParams(document.location.search);
         const postId = params.get('postId') || 1;
         console.log('postId:::', postId);
 
-        const url = `${BASE_POST_URL}/${postId}`;
+        const url = `${BASE_POST_URL}/${postId}?_expand=user`;
 
         axios
           .get(url)
           .then(function (response) {
-            console.log('GET-Posts:::', JSON.stringify(response, null, 2));
+            // console.log('GET-Posts:::', JSON.stringify(response, null, 2));
+
 
             if (response.status === 200) {
               // #Step-2
               // const postsData = response.data;
               // const htmlContent = templateOfPosts(postsData);
+              articleData= response.data;
 
               // #Step-3
               // domPostList.innerHTML = htmlContent;
-              domPostList.innerHTML = `<pre>${JSON.stringify(
-                response.data,
-                null,
-                2
-              )}</pre>`;
+              console.log( "articleBody", articleData);
+              let str= `<h6>Author: ${articleData.user.accountName}</h6>
+              <h3>${articleData.title}</h3>
+              <p class="d-flex justify-content-between">${articleData.createTime}<button type="button" onclick="javascript:location.href='/page/edit.html'" class="btn btn-outline-primary btn-sm">編輯</button></p>
+              <p>${articleData.content}</p>`;
+            
+              domPostList.innerHTML=str;
+              let comments = "";
+              articleData.comments.forEach(function(item){
+                comments+=`<li class="list-unstyled"><span class="me-2">B${item.id+1}</span><span class="me-2">${item.accountName}:</span><span class="me-2">${item.content}</span><span class="me-2">${item.createTime}</span></li>`
+              })
+              domCommentList.innerHTML=comments;
             }
             /* end of res-OK */
           })
@@ -355,12 +298,9 @@
           renderBookmarkState();
         }
 
-        if (!hasUserId) {
-          document.querySelector('.js-need-login').style.display = 'none';
-        }
-
-        btnAddBookmark.addEventListener('click', () => addBookmark());
-        btnRemoveBookmark.addEventListener('click', () => removeBookmark());
+        // if (!hasUserId) {
+        //   document.querySelector('.js-need-login').style.display = 'none';
+        // }
       }
       /* end of init() */
 

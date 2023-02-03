@@ -8,7 +8,11 @@
     <meta name="referrer" content="no-referrer" />
     <!-- <meta name="theme-color" content="#7952b3" /> -->
 
-    <title>HOME</title>
+    <title>POST</title>
+    
+    <!-- ckeditor套件cdn -->
+
+    <script src="https://cdn.ckeditor.com/ckeditor5/36.0.0/classic/ckeditor.js"></script>
 
     <!-- Bootstrap CSS -->
     <link
@@ -66,12 +70,9 @@
         margin-left: -0.25px;
       }
 
-      .button{
-        color: white;
-        background-color: #1E426C;
-        border: none;
-        margin-right: 3px;
-        border-radius: 10%;
+      #editor {
+        width: 100%;
+        height: 300px;
       }
     </style>
   </head>
@@ -142,7 +143,6 @@
       </nav>
     </header>
 
-    <!-- Begin page content -->
     <div class="d-flex" style="background-color:rgba(107, 172, 255, 0.3)">
       <ul class="d-flex flex-row navbar-nav me-auto mb-2 mb-md-0">
         <!-- <li class="nav-item">
@@ -176,55 +176,44 @@
         <div class="js-guest-menu">
           <!-- #REVIEWS:  -->
           <a href="post.html" class="btn btn-sm btn-primary px-3 me-5">
-            發文
+            回復文章
           </a>
         </div>
         <!-- end of GUEST-btns -->
       </div>
     </div>
-      
-    
 
+    <!-- Begin page content -->
     <main class="flex-shrink-0">
       <div class="container py-2">
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col"></th>
-              <th scope="col">主題</th>
-              <th scope="col">發布時間</th>
-              <th scope="col">最後回覆時間</th>
-              <th scope="col">回應</th>
-            </tr>
-          </thead>
-          <tbody class="articlesWrap">
-            <tr>
-              <th scope="row"><span class="badge bg-primary rounded-pill">置頂</span></th>
-              <td>[版務]版上建議及精華文章相關推薦</td>
-              <td><p class="h6">SunnyCheng0509</p><p class="h6">2023/01/07 14:08</p></td>
-              <td><p class="h6">abc0123</p><p class="h6">2023/01/07 14:08</p></td>
-              <td>28</td>
-            </tr>
-            <tr>
-              <th scope="row"><span class="badge bg-primary rounded-pill">置頂</span></th>
-              <td>[版務]版務組及近期回應聲明</td>
-              <td><p class="h6">SunnyCheng0509</p><p class="h6">2023/01/07 14:08</p></td>
-              <td><p class="h6">abc0123</p><p class="h6">2023/01/07 14:08</p></td>
-              <td>28</td>
-            </tr>
-            <tr>
-              <th scope="row"></th>
-              <td>[閒聊]光陽電動車最近一直熄火</td>
-              <td><p class="h6">SunnyCheng0509</p><p class="h6">2023/01/07 14:08</p></td>
-              <td><p class="h6">abc0123</p><p class="h6">2023/01/07 14:08</p></td>
-              <td>28</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="row">
+          <div class="col-md-7 mx-auto">
+            <div class="articleBody border p-3">
+              <h6>Author: Sunny</h6>
+              <h3>標題標題</h3>
+              <p class="d-flex justify-content-between">2023/01/01 17:05<button type="button" class="btn btn-outline-primary btn-sm">編輯</button></p>
+            
+                <textarea name="content" id="editor">
+                    &lt;p&gt;This is some sample content.&lt;/p&gt;
+                </textarea>
+                <input type="button" class="editSubmit btn btn-primary btn-sm" value="提交">
+          
+            </div>
+            <ul class="comments border p-3">
+              <li class="list-unstyled"><span class="me-2">id</span><span class="me-2">accountName:</span><span class="me-2">commentContent</span><span class="me-2">createdTime</span></li>
+            </ul>
+          </div>
+        </div>
+        
+        <ul class="js-post-list my-4 row list-unstyled">
+          <!-- <ul class="js-post-list"> -->
+          <!-- inject data from API -->
+          <pre>LOADING...</pre>
+        </ul>
       </div>
-    </main>
 
-    <div class="btn2 d-flex justify-content-center"></div>
+      <pre class="js-msg"></pre>
+    </main>
 
     <footer class="footer mt-auto py-3 bg-light">
       <div class="container">
@@ -246,108 +235,103 @@
 
     <!-- MAIN -->
     <script>
-      const articlesList = document.querySelector(".articlesWrap");
-      // console.log('articlesList',articlesList)
-    let articlesData = [];
-    function init(){
-        getArticlesList();
-        pagination();
-    };
-    init();
-    function getArticlesList(){
-        axios.get(`http://localhost:3000/articles?_expand=user`)
-        .then(function(res){
-            console.log("檢查getArticlesList是否有印出資料",res.data);
-            articlesData = res.data;
-            renderArticlesList();
-            pagination();
-            });
-        
-    };
-    function combineArticlesHTMLItem(item){
-        return `<tr>
-              <th scope="row"><span class="badge bg-primary rounded-pill">${item.stickyTop?"置頂":""}</span></th>
-              <td><a href="./post.html?postId=${item.id}" class="pe-auto">${item.title}</a></td>
-              <td><p class="h6">${item.user.accountName}</p><p class="h6">${item.createTime}</p></td>
-              <td><p class="h6">${item.comments[item.comments.length-1].accountName}</p><p class="h6">${item.comments[item.comments.length-1].createTime}</p></td>
-              <td>${item.comments[item.comments.length-1].accountName===""?0:item.comments.length}</td>
-            </tr>`
-    };
-    function renderArticlesList(){
-        let str = "";
-        articlesData.forEach(function(item,index){
-                if(index>=0&&index<=4){
-                  str+=combineArticlesHTMLItem(item);
-                };
-            
-            articlesList.innerHTML=str;
-        })
-        
-    };
+      // const BASE_URL = 'http://localhost:3000';
+      const BASE_POST_URL = `${BASE_URL}/articles`;
+      const BOOKMARKS_URL = `${BASE_URL}/600/bookmarks`;
+      const USERS_URL = `${BASE_URL}/600/users`;
 
-    function pagination(){
-        // 取得撈到資料的總筆數
-    let total= articlesData.length;
-    // console.log(total);
+      const domMsg = document.querySelector('.js-msg');
+      const domPostList = document.querySelector('.articleBody');
+      const domState = document.querySelector('.js-bookmark-state');
+      const domCommentList = document.querySelector('.comments');
+      
 
-    // 設定一頁呈現幾筆資料
-    const perPage= 5;
+      let articleData = [];
 
-    // 計算總頁數
-    let totalPage= Math.ceil(total/perPage);
-    console.log(totalPage);
+      let bookmarkId = 0;
+      /* end of definition */
 
-    // 結合總頁數用for迴圈寫按鈕，應該要有三個按鈕
-    str="";
-    for(let i=1;i<totalPage+1;i++){
-      str+=`<input class="button" type="button" value="${i}">`
-      console.log(str);
-    }
-    const btn2 = document.querySelector(".btn2");
-    console.log(btn2);
-    btn2.innerHTML=str;
-
-    // 渲染分頁畫面
-    // 依照目前點取到的分頁取得分頁的值
-
-
-
-    btn2.addEventListener("click",(e)=>{
-      let pageNumber=0;
-      let filterData =[];
-      if(e.target.nodeName==="INPUT"){
-        // console.log("點到按鈕了!");
-        // console.log(e.target.value);
-        pageNumber= parseInt(e.target.value);
-        console.log(pageNumber);
+      function getLoggedID() {
+        return localStorage.getItem('userId') || 0;
       }
-      // 用取得分頁的值計算起始得索引(開始第幾筆)
-      let start= (pageNumber-1)*perPage;
-        // 用取得分頁的值加上一頁呈現幾筆計算出終末的索引(結束第幾筆) 
-        let end = start+perPage-1;
-        console.log(start,end);
-        // console.log(111,thisData);
-    filterData= articlesData.filter((item,index)=>{
-          return start <=index & index <=end ;
-        })
-      console.log(filterData);
+      /* end of hasLogged() */
+
+      function renderPostInfo() {
+        const params = new URLSearchParams(document.location.search);
+        const postId = params.get('postId') || 1;
+        console.log('postId:::', postId);
+
+        const url = `${BASE_POST_URL}/${postId}?_expand=user`;
+
+        axios
+          .get(url)
+          .then(function (response) {
+            // console.log('GET-Posts:::', JSON.stringify(response, null, 2));
+
+
+            if (response.status === 200) {
+              // #Step-2
+              // const postsData = response.data;
+              // const htmlContent = templateOfPosts(postsData);
+              articleData= response.data;
+
+              // #Step-3
+              // domPostList.innerHTML = htmlContent;
+              console.log( "articleBody", articleData);
+              let str= `<h6>Author: ${articleData.user.accountName}</h6>
+              <h3>${articleData.title}</h3>
+              <p class="d-flex justify-content-between">${articleData.createTime}<button type="button" onclick="javascript:location.href='/page/edit.html'" class="btn btn-outline-primary btn-sm">編輯</button></p>
+              <textarea name="content" id="editor">
+              ${articleData.content}
+              </textarea>
+              <input type="button" class="editSubmit btn btn-primary btn-sm" value="提交">`;
+            
+              domPostList.innerHTML=str;
+              let comments = "";
+              articleData.comments.forEach(function(item){
+                comments+=`<li class="list-unstyled"><span class="me-2">B${item.id+1}</span><span class="me-2">${item.accountName}:</span><span class="me-2">${item.content}</span><span class="me-2">${item.createTime}</span></li>`
+              })
+              domCommentList.innerHTML=comments;
+            }
+            /* end of res-OK */
+          })
+          .catch(function (error) {
+            // console.log('error:::', JSON.stringify(error, null, 2));
+
+            domMsg.innerHTML = error?.response?.status || error;
+          });
+        /*  end of axios */
+      }
+      /* end of renderPostInfo() */
+
+      /**
+       * #Step-0: after page refresh
+       */
+      function init() {
+        renderPostInfo();
+
+        const hasUserId = getLoggedID();
+
+        if (hasUserId) {
+          renderBookmarkState();
+        }
+
+        // if (!hasUserId) {
+        //   document.querySelector('.js-need-login').style.display = 'none';
+        // }
+      }
+      /* end of init() */
+
+      // MAIN
+      init();
       
-      // 串str用forEach渲染指定的分頁畫面資料(第幾筆到第幾筆) 
-      
-      let str="";
-      filterData.forEach((item)=>{
-        str+=`<tr>
-              <th scope="row"><span class="badge bg-primary rounded-pill">${item.stickyTop?"置頂":""}</span></th>
-              <td>${item.title}</td>
-              <td><p class="h6">${item.user.accountName}</p><p class="h6">${item.createTime}</p></td>
-              <td><p class="h6">${item.comments[item.comments.length-1].accountName}</p><p class="h6">${item.comments[item.comments.length-1].createTime}</p></td>
-              <td>${item.comments[item.comments.length-1].accountName===""?0:item.comments.length}</td>
-            </tr>`
+      const editSubmit = document.querySelector('.editSubmit');
+      console.log("submit",editSubmit);
+
+      editSubmit.addEventListener("click",function(e){
+        e.preventDefault();
+        console.log("點擊到提交了");
       })
-      
-      articlesList.innerHTML=str;
-    });
-}
     </script>
     <!-- end of script -->
   </body>
