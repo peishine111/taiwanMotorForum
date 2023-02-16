@@ -57,7 +57,7 @@
         <!-- Container-wrapper -->
         <section class="container-fluid">
           <!-- Navbar brand -->
-          <a class="navbar-brand me-2" href="/">LOGO</a>
+          <a class="navbar-brand me-2" href="/page/index.html"><img src="/page/images/motor.svg" alt=""></a>
 
           <!-- Toggle button -->
           <button
@@ -75,7 +75,7 @@
           <!-- Collapsible-wrapper -->
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav me-auto mb-2 mb-md-0">
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <a
                   class="nav-link active"
                   aria-current="page"
@@ -83,10 +83,10 @@
                 >
                   測試用
                 </a>
-              </li>
+              </li> -->
 
               <li class="nav-item">
-                <a class="nav-link" href="/example">原版範例</a>
+                <a class="nav-link fw-bold" href="/page/motorSiteArticleLists.html">台灣機車論壇</a>
               </li>
             </ul>
             <!-- end of Left-links -->
@@ -97,14 +97,14 @@
               </ul>
               <!-- end of User-btns -->
 
-              <div>
+              <div class="js-guest-menu">
                 <!-- #REVIEWS:  -->
-                <a href="/login.html" class="btn btn-sm text-muted px-3 me-2">
+                <a href="login.html" class="btn btn-sm btn-outline-primary text-muted px-5 me-4">
                   登入
                 </a>
 
-                <a href="/register.html" class="btn btn-primary btn-sm me-3"
-                  >免費註冊</a
+                <a href="register.html" class="btn btn-primary btn-sm me-3 px-5"
+                  >註冊</a
                 >
               </div>
               <!-- end of GUEST-btns -->
@@ -189,7 +189,7 @@
       const domMsg = document.querySelector('.js-msg');
       const btnLogin = document.querySelector('.js-btn-login');
       const form = document.querySelector('.js-form-login');
-
+      
       const btnUserMenu = document.querySelector('.js-user-menu');
       /* end of definition */
 
@@ -222,6 +222,8 @@
           email: form.email.value.trim(),
           password: form.password.value.trim(),
         };
+
+        
 
         const hasInput = data.email && data.password;
         if (hasInput) {

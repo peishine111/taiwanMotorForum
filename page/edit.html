@@ -192,12 +192,7 @@
               <h6>Author: Sunny</h6>
               <h3>標題標題</h3>
               <p class="d-flex justify-content-between">2023/01/01 17:05<button type="button" class="btn btn-outline-primary btn-sm">編輯</button></p>
-            
-                <textarea name="content" id="editor">
-                    &lt;p&gt;This is some sample content.&lt;/p&gt;
-                </textarea>
-                <input type="button" class="editSubmit btn btn-primary btn-sm" value="提交">
-          
+              
             </div>
             <ul class="comments border p-3">
               <li class="list-unstyled"><span class="me-2">id</span><span class="me-2">accountName:</span><span class="me-2">commentContent</span><span class="me-2">createdTime</span></li>
@@ -284,7 +279,7 @@
               <textarea name="content" id="editor">
               ${articleData.content}
               </textarea>
-              <input type="button" class="editSubmit btn btn-primary btn-sm" value="提交">`;
+              <input type="button" class="btn btn-primary btn-sm" onclick='toConsole(event)' value="提交">`;
             
               domPostList.innerHTML=str;
               let comments = "";
@@ -324,14 +319,24 @@
 
       // MAIN
       init();
-      
-      const editSubmit = document.querySelector('.editSubmit');
-      console.log("submit",editSubmit);
 
-      editSubmit.addEventListener("click",function(e){
-        e.preventDefault();
-        console.log("點擊到提交了");
+      function toConsole(e){
+      console.log(e.target);
+      const params = new URLSearchParams(document.location.search);
+      const postId = params.get('postId') || 1;
+      console.log('postId:::', postId);
+
+      const url = `${BASE_POST_URL}/${postId}?_expand=user`;
+
+      // console.log("點擊到提交了");
+      axios.patch(url, {
+      content: document.getElementById("editor").value,
       })
+      .then(res => {
+      console.log(res.data);
+      });
+      location.href=`/page/post.html?postId=${postId}`
+      }
     </script>
     <!-- end of script -->
   </body>
