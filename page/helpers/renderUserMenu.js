@@ -27,22 +27,6 @@ function templateOfUserMenu(user, template = '') {
   template += `
     <li class="nav-item">
       <div>
-        <a href="/me/carts.html" class="btn btn-sm text-muted px-3 me-2">
-          購物車
-        </a>
-      </div>
-    </li>
-
-    <li class="nav-item">
-      <div>
-        <a href="/me/bookmarks.html" class="btn btn-sm text-muted px-3 me-2">
-          收藏列表
-        </a>
-      </div>
-    </li>
-
-    <li class="nav-item">
-      <div>
         <a href="#" class="btn btn-sm text-muted px-3 me-2">
           Hello!
         </a>
@@ -108,7 +92,7 @@ function logout(event) {
   localStorage.clear();
 
   setTimeout(() => {
-    window.location.replace('/');
+    window.location.href = '/page/motorSiteArticleLists.html';
   }, 300);
   /* end of setTimeout */
 }

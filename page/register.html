@@ -32,7 +32,7 @@
         <!-- Container-wrapper -->
         <section class="container-fluid">
           <!-- Navbar brand -->
-          <a class="navbar-brand me-2" href="/">LOGO</a>
+          <a class="navbar-brand me-2" href="/page/index.html"><img src="/page/images/motor.svg" alt=""></a>
 
           <!-- Toggle button -->
           <button
@@ -50,7 +50,7 @@
           <!-- Collapsible-wrapper -->
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav me-auto mb-2 mb-md-0">
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <a
                   class="nav-link active"
                   aria-current="page"
@@ -58,10 +58,10 @@
                 >
                   測試用
                 </a>
-              </li>
+              </li> -->
 
               <li class="nav-item">
-                <a class="nav-link" href="/example">原版範例</a>
+                <a class="nav-link fw-bold" href="/page/motorSiteArticleLists.html">台灣機車論壇</a>
               </li>
             </ul>
             <!-- end of Left-links -->
@@ -72,13 +72,15 @@
               </ul>
               <!-- end of User-btns -->
 
-              <div>
+              <div class="js-guest-menu">
                 <!-- #REVIEWS:  -->
-                <a href="/login.html" class="btn btn-sm text-muted px-3 me-2">
+                <a href="login.html" class="btn btn-sm btn-outline-primary text-muted px-5 me-4">
                   登入
                 </a>
 
-                <a href="/register.html" class="btn btn-primary btn-sm me-3">免費註冊</a>
+                <a href="register.html" class="btn btn-primary btn-sm me-3 px-5"
+                  >註冊</a
+                >
               </div>
               <!-- end of GUEST-btns -->
             </div>
@@ -98,6 +100,22 @@
           <!-- 
             #NOTE: form rule with div>label+input
           -->
+          <div class="form-group">
+            <label for="exampleInputName1">用戶名</label>
+            <input
+              name="name"
+              type="text"
+              class="form-control"
+              id="exampleInputName1"
+              aria-describedby="accountName"
+              placeholder="accountName"
+            />
+
+            <!-- <small id="emailHelp" class="form-text text-muted">
+            We'll never share your email with anyone else.
+          </small> -->
+          </div>
+
           <div class="form-group">
             <label for="exampleInputEmail1">信箱</label>
             <input
@@ -189,6 +207,7 @@
         //   password: '12345678',
         // };
         const data = {
+          accountName: form.name.value.trim(),
           email: form.email.value.trim(),
           password: form.password.value.trim(),
         };
@@ -204,7 +223,7 @@
 
               if (response.status === 201) {
                 saveUserToLocal(response.data);
-                window.location.replace('/login.html');
+                window.location.replace('/page/login.html');
               }
               /*  end of IF-OK */
             })

@@ -8,8 +8,11 @@
     <meta name="referrer" content="no-referrer" />
     <!-- <meta name="theme-color" content="#7952b3" /> -->
 
-    <title>HOME</title>
+    <title>POST</title>
 
+    <!-- ckeditor -->
+    <script src="https://cdn.ckeditor.com/ckeditor5/36.0.0/classic/ckeditor.js"></script>
+    
     <!-- Bootstrap CSS -->
     <link
       rel="canonical"
@@ -65,7 +68,8 @@
         height: 100%;
         margin-left: -0.25px;
       }
-    </style>
+
+  </style>
   </head>
 
   <body class="d-flex flex-column h-100">
@@ -134,7 +138,6 @@
       </nav>
     </header>
 
-    <!-- Begin page content -->
     <div class="d-flex" style="background-color:rgba(107, 172, 255, 0.3)">
       <ul class="d-flex flex-row navbar-nav me-auto mb-2 mb-md-0">
         <!-- <li class="nav-item">
@@ -165,74 +168,59 @@
         </ul>
         <!-- end of User-btns -->
 
-        <div class="js-guest-menu">
-          <!-- #REVIEWS:  -->
-          <a href="newPost.html" class="btn btn-sm btn-primary px-3 me-5">
-            發文
-          </a>
-        </div>
-        <!-- end of GUEST-btns -->
       </div>
     </div>
-      
-    <nav class="mx-auto py-1" aria-label="...">
-      <ul class="pagination pagination-sm">
-        <li class="page-item active" aria-current="page">
-          <span class="page-link">1</span>
-        </li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-      </ul>
-    </nav>
-    
+
+    <!-- Begin page content -->
     <main class="flex-shrink-0">
       <div class="container py-2">
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col"></th>
-              <th scope="col">主題</th>
-              <th scope="col">發布時間</th>
-              <th scope="col">最後回覆時間</th>
-              <th scope="col">回應</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row"><span class="badge bg-primary rounded-pill">置頂</span></th>
-              <td>[心得]新手月經問題懶人包-買車篇</td>
-              <td><p class="h6">SunnyCheng0509</p><p class="h6">2023/01/07 14:08</p></td>
-              <td><p class="h6">abc0123</p><p class="h6">2023/01/07 14:08</p></td>
-              <td>28</td>
-            </tr>
-            <tr>
-              <th scope="row"><span class="badge bg-primary rounded-pill">置頂</span></th>
-              <td>[心得]新手月經問題懶人包-新手上路篇</td>
-              <td><p class="h6">SunnyCheng0509</p><p class="h6">2023/01/07 14:08</p></td>
-              <td><p class="h6">abc0123</p><p class="h6">2023/01/07 14:08</p></td>
-              <td>28</td>
-            </tr>
-            <tr>
-              <th scope="row"></th>
-              <td>[心得]新手必看防禦駕駛觀念篇</td>
-              <td><p class="h6">SunnyCheng0509</p><p class="h6">2023/01/07 14:08</p></td>
-              <td><p class="h6">abc0123</p><p class="h6">2023/01/07 14:08</p></td>
-              <td>28</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="row">
+          <div class="col-md-7 mx-auto">
+            <h3 class="text-center">發表新主題</h3>
+            
+            <div class="form-group">
+              <label for="exampleInputCategory1">請選擇分類</label><br>
+              <select class="category">
+                <option value="心得">心得</option>
+                <option value="問題">問題</option>
+                <option value="閒聊">閒聊</option>
+              </select>
+            </div>
+            <br>
+            <div class="form-group">
+              <label for="exampleInputTitle1">標題</label>
+              <input
+                name="title"
+                type="text"
+                class="form-control"
+                id="exampleInputTitle1"
+                aria-describedby="article Title"
+                placeholder="請輸入文章標題"
+              />
+            </div>
+            <br>
+            <div class="form-group">
+              <label for="exampleInputContent1">文章內容</label>
+              <textarea name="content" id="editor">
+              </textarea>
+            </div>
+            <br>
+            <div class="d-flex justify-content-center">
+              <input type="button" value="送出" class="send btn btn-primary">
+            </div>
+            
+          </div>
+        </div>
+        
+        <ul class="js-post-list my-4 row list-unstyled">
+          <!-- <ul class="js-post-list"> -->
+          <!-- inject data from API -->
+          <pre>LOADING...</pre>
+        </ul>
       </div>
-    </main>
 
-    <nav class="mx-auto py-1" aria-label="...">
-      <ul class="pagination pagination-sm">
-        <li class="page-item active" aria-current="page">
-          <span class="page-link">1</span>
-        </li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-      </ul>
-    </nav>
+      <pre class="js-msg"></pre>
+    </main>
 
     <footer class="footer mt-auto py-3 bg-light">
       <div class="container">
@@ -254,11 +242,40 @@
 
     <!-- MAIN -->
     <script>
-      // const BASE_URL = 'http://localhost:3000';
-      const BASE_POST_URL = `${BASE_URL}/664/posts`;
 
-      const domMsg = document.querySelector('.js-msg');
-      const domPostList = document.querySelector('.js-post-list');
+      let data = "";
+    
+      ClassicEditor
+          .create( document.querySelector( '#editor' ) )
+          .then( editor => {
+            console.log( 'Editor was initialized', editor );
+            const data = editor.getData();
+          } )
+          .catch( error => {
+              console.error( error );
+          } );
+
+      
+      // const BASE_URL = 'http://localhost:3000';
+      const BASE_POST_URL = `${BASE_URL}/600/articles`;
+      
+      const category = document.querySelector('.category');
+      console.log(category);
+      const title = document.querySelector('#exampleInputTitle1');
+      console.log(title);
+      
+      const send = document.querySelector('.send');
+      console.log(send);
+
+      send.addEventListener("click",function(e){
+        console.log(category.value);
+        console.log(title.value);
+        console.log(data);
+      })
+
+      let articleData = [];
+
+      let bookmarkId = 0;
       /* end of definition */
 
       function getLoggedID() {
@@ -266,78 +283,39 @@
       }
       /* end of hasLogged() */
 
-      /**
-       * #Step-2: print html with post list
-       * @param { Array } posts
-       * @param { String } template
-       * @returns { String } htmlContent
-       */
-      function templateOfPosts(posts, template = ``) {
-        console.log('posts:::', JSON.stringify(posts, null, 2));
-        /*
-         * #NOTE: Array.forEach() do NOT `return`
-         */
-        posts.forEach(function (post) {
-          /**
-           * - IF post.body === null
-           *   THEN return '' to display nothing
-           *
-           * @type { String } article
-           */
-          const article = post.body ? post.body : '';
+      function renderPostInfo() {
+        const params = new URLSearchParams(document.location.search);
+        const postId = params.get('postId') || 1;
+        console.log('postId:::', postId);
 
-          // <small class="text-muted">
-          //   <code>${post.id}</code>
-          // </small>
-          template += `
-            <li
-              data-id='${post.id}'
-              class="col-sm-6 col-lg-4 mb-4"
-            >
-              <div class="card">
-                <section class="card-body">
-
-                  <div class="d-flex justify-content-end align-items-center p-0">
-                    <a href="./post.html?postId=${post.id}" class="pe-auto">延伸閱讀</a>
-                  </div>
-
-                  <h3 class="card-title  text-truncate">
-                    ${post.title}
-                  </h3>
-
-                  <article class="card-text  text-truncate">
-                    ${article}
-                  </article>
-
-                </section>
-              </div>
-            </li>
-          `;
-        });
-        /* end of posts.forEach() */
-
-        return template;
-      }
-      /* end of templateOfPosts() */
-
-      /**
-       * #Step-1: `GET` data from API
-       */
-      function renderPosts() {
-        const url = `${BASE_POST_URL}`;
+        const url = `${BASE_POST_URL}/${postId}?_expand=user`;
 
         axios
           .get(url)
           .then(function (response) {
             // console.log('GET-Posts:::', JSON.stringify(response, null, 2));
 
+
             if (response.status === 200) {
               // #Step-2
-              const postsData = response.data;
-              const htmlContent = templateOfPosts(postsData);
+              // const postsData = response.data;
+              // const htmlContent = templateOfPosts(postsData);
+              articleData= response.data;
 
               // #Step-3
-              domPostList.innerHTML = htmlContent;
+              // domPostList.innerHTML = htmlContent;
+              console.log( "articleBody", articleData);
+              let str= `<h6>Author: ${articleData.user.accountName}</h6>
+              <h3>${articleData.title}</h3>
+              <p class="d-flex justify-content-between">${articleData.createTime}<button type="button" onclick="javascript:location.href='/page/edit.html'" class="btn btn-outline-primary btn-sm">編輯</button></p>
+              <p>${articleData.content}</p>`;
+            
+              domPostList.innerHTML=str;
+              let comments = "";
+              articleData.comments.forEach(function(item){
+                comments+=`<li class="list-unstyled"><span class="me-2">B${item.id+1}</span><span class="me-2">${item.accountName}:</span><span class="me-2">${item.content}</span><span class="me-2">${item.createTime}</span></li>`
+              })
+              domCommentList.innerHTML=comments;
             }
             /* end of res-OK */
           })
@@ -348,13 +326,23 @@
           });
         /*  end of axios */
       }
-      /* end of renderPosts() */
+      /* end of renderPostInfo() */
 
       /**
        * #Step-0: after page refresh
        */
       function init() {
-        renderPosts();
+        renderPostInfo();
+
+        const hasUserId = getLoggedID();
+
+        if (hasUserId) {
+          renderBookmarkState();
+        }
+
+        // if (!hasUserId) {
+        //   document.querySelector('.js-need-login').style.display = 'none';
+        // }
       }
       /* end of init() */
 

@@ -231,13 +231,13 @@
             .post(url, data)
             .then(function (response) {
               console.log('login:::', JSON.stringify(response, null, 2));
-
+              
               domMsg.innerHTML = response.statusText;
-
+              window.location.href = '/page/motorSiteArticleLists.html';
               if (response.status === 200) {
                 saveUserToLocal(response.data);
 
-                let redirectPath = '/';
+                let redirectPath = '/page/';
                 // const isAdmin = response.data?.user?.role?.includes('admin');
                 const isAdmin = response.data?.user?.role === 'admin';
                 if (isAdmin) {
@@ -254,6 +254,7 @@
             })
             .catch(function (error) {
               console.log('error:::', JSON.stringify(error, null, 2));
+              console.dir(error);
 
               domMsg.innerHTML = error?.response?.data || error;
             });
