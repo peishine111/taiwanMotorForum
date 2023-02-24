@@ -231,7 +231,7 @@
     <!-- MAIN -->
     <script>
       // const BASE_URL = 'http://localhost:3000';
-      const BASE_POST_URL = `${BASE_URL}/articles`;
+      const BASE_POST_URL = `${BASE_URL}/644/articles`;
       const BOOKMARKS_URL = `${BASE_URL}/600/bookmarks`;
       const USERS_URL = `${BASE_URL}/600/users`;
 
@@ -253,7 +253,7 @@
 
       function renderPostInfo() {
         const params = new URLSearchParams(document.location.search);
-        const postId = params.get('postId') || 1;
+        const postId = params.get('postId') ;
         console.log('postId:::', postId);
 
         const url = `${BASE_POST_URL}/${postId}?_expand=user`;
@@ -269,7 +269,7 @@
               // const postsData = response.data;
               // const htmlContent = templateOfPosts(postsData);
               articleData= response.data;
-
+              console.log('articleData',articleData);
               // #Step-3
               // domPostList.innerHTML = htmlContent;
               console.log( "articleBody", articleData);
@@ -307,10 +307,6 @@
 
         const hasUserId = getLoggedID();
 
-        if (hasUserId) {
-          renderBookmarkState();
-        }
-
         // if (!hasUserId) {
         //   document.querySelector('.js-need-login').style.display = 'none';
         // }
@@ -326,11 +322,18 @@
       const postId = params.get('postId') || 1;
       console.log('postId:::', postId);
 
+      const token = localStorage.getItem('token');
+      console.log(token);
+
       const url = `${BASE_POST_URL}/${postId}?_expand=user`;
 
       // console.log("點擊到提交了");
       axios.patch(url, {
       content: document.getElementById("editor").value,
+      },{
+        headers:{
+          "authorization": `Bearer ${token}`
+        }
       })
       .then(res => {
       console.log(res.data);

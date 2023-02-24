@@ -338,7 +338,7 @@
       filterData.forEach((item)=>{
         str+=`<tr>
               <th scope="row"><span class="badge bg-primary rounded-pill">${item.stickyTop?"置頂":""}</span></th>
-              <td>${item.title}</td>
+              <td><a href="./post.html?postId=${item.id}" class="pe-auto">${item.title}</a></td>
               <td><p class="h6">${item.user.accountName}</p><p class="h6">${item.createTime}</p></td>
               <td><p class="h6">${item.comments[item.comments.length-1].accountName}</p><p class="h6">${item.comments[item.comments.length-1].createTime}</p></td>
               <td>${item.comments[item.comments.length-1].accountName===""?0:item.comments.length}</td>

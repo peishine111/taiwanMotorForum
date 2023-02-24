@@ -265,7 +265,7 @@
               console.log( "articleBody", articleData);
               let str= `<h6>Author: ${articleData.user.accountName}</h6>
               <h3>${articleData.title}</h3>
-              <p class="d-flex justify-content-between">${articleData.createTime}<button type="button" onclick="javascript:location.href='/page/edit.html'" class="btn btn-outline-primary btn-sm">編輯</button></p>
+              <p class="d-flex justify-content-between">${articleData.createTime}<button type="button" onclick="javascript:location.href='/page/edit.html?postId=${postId}'" class="btn btn-outline-primary btn-sm">編輯</button></p>
               <p>${articleData.content}</p>`;
             
               domPostList.innerHTML=str;
