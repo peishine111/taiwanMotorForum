@@ -273,9 +273,19 @@
       send.addEventListener("click",function(e){
         console.log(category.value);
         console.log(title.value);
-        console.log(content.innerHTML);
-      })
+        const content = document.querySelector('.ck-content');
+        console.log(content);
 
+        axios
+          .post(url)
+          .then(function (response) {
+            // console.log('GET-Posts:::', JSON.stringify(response, null, 2));
+            const data =response.data;
+          })
+          .catch(function (error) {
+            domMsg.innerHTML = error?.response?.status || error;
+          });
+      })
       let articleData = [];
 
       let bookmarkId = 0;
@@ -291,10 +301,14 @@
         const postId = params.get('postId') || 1;
         console.log('postId:::', postId);
 
-        const url = `${BASE_POST_URL}/${postId}?_expand=user`;
-
+        const url = `${BASE_POST_URL}?_expand=user`;
+        const token =localStorage.getItem('token');
         axios
-          .get(url)
+          .get(url,{
+            headers:{
+              "authorization":`Bearer ${token}`
+            }
+          })
           .then(function (response) {
             // console.log('GET-Posts:::', JSON.stringify(response, null, 2));
 
@@ -308,24 +322,14 @@
               // #Step-3
               // domPostList.innerHTML = htmlContent;
               console.log( "articleBody", articleData);
-              let str= `<h6>Author: ${articleData.user.accountName}</h6>
-              <h3>${articleData.title}</h3>
-              <p class="d-flex justify-content-between">${articleData.createTime}<button type="button" onclick="javascript:location.href='/page/edit.html'" class="btn btn-outline-primary btn-sm">編輯</button></p>
-              <p>${articleData.content}</p>`;
-            
-              domPostList.innerHTML=str;
-              let comments = "";
-              articleData.comments.forEach(function(item){
-                comments+=`<li class="list-unstyled"><span class="me-2">B${item.id+1}</span><span class="me-2">${item.accountName}:</span><span class="me-2">${item.content}</span><span class="me-2">${item.createTime}</span></li>`
-              })
-              domCommentList.innerHTML=comments;
+              
             }
             /* end of res-OK */
           })
           .catch(function (error) {
             // console.log('error:::', JSON.stringify(error, null, 2));
 
-            domMsg.innerHTML = error?.response?.status || error;
+            console.log(error);
           });
         /*  end of axios */
       }

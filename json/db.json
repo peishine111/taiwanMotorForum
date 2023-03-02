@@ -241,38 +241,39 @@
   ],
   "users": [
     {
-      "id": 0,
-      "accountName": "Sunny",
       "email": "pei.shine333@gmail.com",
-      "password": "123456AAAaaa"
+      "password": "$2a$10$GJE3TLetThALG3VLL83S8O/g8hYNJK/3clrKvChMYBEDX8iQrOaeW",
+      "accountName": "Sunny",
+      "id": 0,
+      "role": "admin"
     },
     {
-      "id": 1,
-      "accountName": "強哥",
       "email": "b123456@gmail.com",
-      "password": "123456BBBbbb"
+      "password": "$2a$10$2lu9JoyMqJQBxRYwH.782OBrL8pakS8lwqxj8omdSuaIPV92u63.W",
+      "accountName": "強哥",
+      "id": 1
     },
     {
-      "id": 2,
-      "accountName": "涵涵",
       "email": "c123456@gmail.com",
-      "password": "123456CCCccc"
+      "password": "$2a$10$HJPGUK0GCw9wbQNbpyw0CuKIFO2pJSAnV9952/FBpvE9Pj0l9lR.a",
+      "accountName": "涵涵",
+      "id": 2
     },
     {
-      "id": 3,
-      "accountName": "snow",
       "email": "d123456@gmail.com",
-      "password": "123456DDDddd"
+      "password": "$2a$10$tEFze1jWmECkoDbIpHsgWOHIDiTMfYsOeTIZKC10l2qfsjSXHF.9K",
+      "accountName": "snow",
+      "id": 3
     },
     {
-      "id": 4,
-      "accountName": "range",
       "email": "e123456@gmail.com",
-      "password": "123456EEEeee"
+      "password": "$2a$10$0M/4GUxVQEtCsEqfQnKaxuks2v93VcxWqDhh4yarYVFTVG1LXzuOS",
+      "accountName": "range",
+      "id": 4
     },
     {
       "email": "111@gmail.com",
-      "password": "$2a$10$QESjz79Z/BOQIaX2njUyOOXw0w5tK1G7Kb5e0Sl/Q4y4qBRFQ/30m",
+      "password": "$2a$10$UyPGn9hvyDLTSUKzYtyYaOyiwg996dsc4gRZ1r.dbAygF3wvnq0ba",
       "accountName": "111",
       "id": 5
     }

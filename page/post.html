@@ -188,6 +188,10 @@
             <ul class="comments border p-3">
               <li class="list-unstyled"><span class="me-2">id</span><span class="me-2">accountName:</span><span class="me-2">commentContent</span><span class="me-2">createdTime</span></li>
             </ul>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control addNewComment" placeholder="請輸入留言內容......" aria-label="leave comments here" aria-describedby="button-addon2">
+              <button class="btn btn-outline-secondary addNewCommentBtn" type="button" id="button-addon2">留言</button>
+            </div>
           </div>
         </div>
         
@@ -223,13 +227,15 @@
     <script>
       // const BASE_URL = 'http://localhost:3000';
       const BASE_POST_URL = `${BASE_URL}/articles`;
-      const BOOKMARKS_URL = `${BASE_URL}/600/bookmarks`;
-      const USERS_URL = `${BASE_URL}/600/users`;
 
       const domMsg = document.querySelector('.js-msg');
       const domPostList = document.querySelector('.articleBody');
       const domState = document.querySelector('.js-bookmark-state');
       const domCommentList = document.querySelector('.comments');
+      const addNewComment = document.querySelector('.addNewComment');
+      // console.log(addNewComment);
+      const addNewCommentBtn = document.querySelector('.addNewCommentBtn');
+      // console.log(addNewCommentBtn);
 
       let articleData = [];
 
@@ -274,6 +280,36 @@
                 comments+=`<li class="list-unstyled"><span class="me-2">B${item.id+1}</span><span class="me-2">${item.accountName}:</span><span class="me-2">${item.content}</span><span class="me-2">${item.createTime}</span></li>`
               })
               domCommentList.innerHTML=comments;
+
+               // 實作留言功能
+              addNewCommentBtn.addEventListener('click',function(e){
+              // console.log("點擊到了");
+              comments="";
+              console.log(addNewComment.value);
+              const accountName = localStorage.getItem('accountName');
+
+              const date = new Date();
+              var minutes = date.getMinutes();
+              var hours = date.getHours();
+              let day = date.getDate();
+              let month = date.getMonth() + 1;
+              let year = date.getFullYear();
+
+              let commentStructure= {
+                "id": articleData.comments.length,
+                "articleId": postId,
+                "accountName": accountName,
+                "content":addNewComment.value,
+                "createTime": `${year}/${month}/${day} ${hours}:${minutes}`
+              };
+
+              articleData.comments.push(commentStructure);
+
+              articleData.comments.forEach(function(item){
+                comments+=`<li class="list-unstyled"><span class="me-2">B${item.id+1}</span><span class="me-2">${item.accountName}:</span><span class="me-2">${item.content}</span><span class="me-2">${item.createTime}</span></li>`
+              })
+              domCommentList.innerHTML=comments;
+            })
             }
             /* end of res-OK */
           })
@@ -293,10 +329,6 @@
         renderPostInfo();
 
         const hasUserId = getLoggedID();
-
-        if (hasUserId) {
-          renderBookmarkState();
-        }
 
         // if (!hasUserId) {
         //   document.querySelector('.js-need-login').style.display = 'none';

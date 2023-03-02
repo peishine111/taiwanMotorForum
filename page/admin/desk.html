@@ -19,6 +19,7 @@
       figure img {
         display: none;
       }
+      
     </style>
 
     <link
@@ -32,13 +33,21 @@
       figure img{
         display: none;
       }
+
+      .button{
+        color: white;
+        background-color: #1E426C;
+        border: none;
+        margin-right: 3px;
+        border-radius: 10%;
+      }
     </style>
   </head>
 
   <body class="d-flex flex-column h-100">
     <header>
       <!-- Fixed navbar -->
-      <nav class="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
+      <nav class="navbar navbar-expand-md sticky-top navbar-dark bg-dark">
         <section class="container-fluid">
           <a href="#" class="navbar-brand">這裡是主控台</a>
 
@@ -57,7 +66,7 @@
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav me-auto mb-2 mb-md-0">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/"
+                <a class="nav-link active" aria-current="page" href="/page/index.html"
                   >回到首頁</a
                 >
               </li>
@@ -82,20 +91,50 @@
     </header>
 
     <!-- Begin page content -->
-    <main class="flex-shrink-0 js-main">
-      <div class="container py-5">
-        <h2 class="py-5">
-          <a href="./posts/create.html" class="block">新增文章-GO!</a>
-        </h2>
-
-        <section class="js-post-list">
-          <!-- inject data from API -->
-          <pre>LOADING...</pre>
-        </section>
+    <main class="flex-shrink-0">
+      <div class="container py-2">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col">主題</th>
+              <th scope="col">發布時間</th>
+              <th scope="col">最後回覆時間</th>
+              <th scope="col">回應</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody class="articlesWrap">
+            <tr>
+              <th scope="row"><span class="badge bg-primary rounded-pill">置頂</span></th>
+              <td>[版務]版上建議及精華文章相關推薦</td>
+              <td><p class="h6">SunnyCheng0509</p><p class="h6">2023/01/07 14:08</p></td>
+              <td><p class="h6">abc0123</p><p class="h6">2023/01/07 14:08</p></td>
+              <td>28</td>
+              <td><button>刪除</button></td>
+            </tr>
+            <tr>
+              <th scope="row"><span class="badge bg-primary rounded-pill">置頂</span></th>
+              <td>[版務]版務組及近期回應聲明</td>
+              <td><p class="h6">SunnyCheng0509</p><p class="h6">2023/01/07 14:08</p></td>
+              <td><p class="h6">abc0123</p><p class="h6">2023/01/07 14:08</p></td>
+              <td>28</td>
+              <td><button>刪除</button></td>
+            </tr>
+            <tr>
+              <th scope="row"></th>
+              <td>[閒聊]光陽電動車最近一直熄火</td>
+              <td><p class="h6">SunnyCheng0509</p><p class="h6">2023/01/07 14:08</p></td>
+              <td><p class="h6">abc0123</p><p class="h6">2023/01/07 14:08</p></td>
+              <td>28</td>
+              <td><button>刪除</button></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-
-      <pre class="js-msg"></pre>
     </main>
+
+    <div class="btn2 d-flex justify-content-center"></div>
 
     <footer class="footer mt-auto py-3 bg-light">
       <div class="container">
@@ -114,218 +153,121 @@
     <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
 
     <script>
-      const BASE_URL = 'http://localhost:3000';
-      const BASE_POST_URL = `${BASE_URL}/664/posts`;
-      // const BASE_POST_URL = `/api/posts`;
-      const USERS_URL = `${BASE_URL}/600/users`;
+    const articlesList = document.querySelector(".articlesWrap");
+      // console.log('articlesList',articlesList)
+    let articlesData = [];
+    function init(){
+        getArticlesList();
+        pagination();
+    };
+    init();
+    function getArticlesList(){
+        axios.get(`http://localhost:3000/articles?_expand=user`)
+        .then(function(res){
+            console.log("檢查getArticlesList是否有印出資料",res.data);
+            articlesData = res.data;
+            renderArticlesList();
+            pagination();
+            });
+        
+    };
+    function combineArticlesHTMLItem(item){
+        return `<tr>
+              <th scope="row"><span class="badge bg-primary rounded-pill">${item.stickyTop?"置頂":""}</span></th>
+              <td><a href="./post.html?postId=${item.id}" class="pe-auto">${item.title}</a></td>
+              <td><p class="h6">${item.user.accountName}</p><p class="h6">${item.createTime}</p></td>
+              <td><p class="h6">${item.comments[item.comments.length-1].accountName}</p><p class="h6">${item.comments[item.comments.length-1].createTime}</p></td>
+              <td>${item.comments[item.comments.length-1].accountName===""?0:item.comments.length}</td>
+              <td><button class="deleteBtn btn btn-danger" onclick={deleteData(${item.id})}>刪除</button></td>
+            </tr>`
+    };
+    function renderArticlesList(){
+        let str = "";
+        articlesData.forEach(function(item,index){
+                if(index>=0&&index<=4){
+                  str+=combineArticlesHTMLItem(item);
+                };
+            
+            articlesList.innerHTML=str;
+        })
+        
+    };
 
-      const domMsg = document.querySelector('.js-msg');
-      const domPostList = document.querySelector('.js-post-list');
-      /* end of definition */
+    function pagination(){
+        // 取得撈到資料的總筆數
+    let total= articlesData.length;
+    // console.log(total);
 
-      function goToEditPost(id) {
-        console.log('editPost:::', id);
+    // 設定一頁呈現幾筆資料
+    const perPage= 5;
 
-        const page = `./posts/editor.html?id=${id}`;
-        console.log('page >>> ', page);
+    // 計算總頁數
+    let totalPage= Math.ceil(total/perPage);
+    console.log(totalPage);
 
-        window.location.replace(page);
+    // 結合總頁數用for迴圈寫按鈕，應該要有三個按鈕
+    str="";
+    for(let i=1;i<totalPage+1;i++){
+      str+=`<input class="button" type="button" value="${i}">`
+      console.log(str);
+    }
+    const btn2 = document.querySelector(".btn2");
+    console.log(btn2);
+    btn2.innerHTML=str;
+
+    // 渲染分頁畫面
+    // 依照目前點取到的分頁取得分頁的值
+
+
+
+    btn2.addEventListener("click",(e)=>{
+      let pageNumber=0;
+      let filterData =[];
+      if(e.target.nodeName!=="INPUT"){
+        alert("您點選錯位置了");
+      }else{
+        console.log("點到按鈕了!");
+        // console.log(e.target.value);
+        pageNumber= parseInt(e.target.value);
+        console.log(pageNumber);
       }
-      /* end of goToEditPost(id) */
+      // 用取得分頁的值計算起始得索引(開始第幾筆)
+      let start= (pageNumber-1)*perPage;
+        // 用取得分頁的值加上一頁呈現幾筆計算出終末的索引(結束第幾筆) 
+        let end = start+perPage-1;
+        console.log(start,end);
+        // console.log(111,thisData);
+    filterData= articlesData.filter((item,index)=>{
+          return start <=index & index <=end ;
+        })
+      console.log(filterData);
+      
+      // 串str用forEach渲染指定的分頁畫面資料(第幾筆到第幾筆) 
+      
+      let str="";
+      filterData.forEach((item)=>{
+        str+=`<tr>
+              <th scope="row"><span class="badge bg-primary rounded-pill">${item.stickyTop?"置頂":""}</span></th>
+              <td><a href="./post.html?postId=${item.id}" class="pe-auto">${item.title}</a></td>
+              <td><p class="h6">${item.user.accountName}</p><p class="h6">${item.createTime}</p></td>
+              <td><p class="h6">${item.comments[item.comments.length-1].accountName}</p><p class="h6">${item.comments[item.comments.length-1].createTime}</p></td>
+              <td>${item.comments[item.comments.length-1].accountName===""?0:item.comments.length}</td>.
+              <td><button class="deleteBtn btn btn-danger" onclick={deleteData(${item.id})}>刪除</button></td>
+            </tr>`
+      })
+      
+      articlesList.innerHTML=str;
+    });
+}
+    function deleteData(id){
+      // console.log(id);
+      axios.delete(`http://localhost:3000/articles/${id}`)
+      .then(res => {
+        console.log(res.data);
+      });
+      getArticlesList()
+    };
 
-      function deletePost(id) {
-        console.log('deletePost:::', id);
-
-        const url = `${BASE_POST_URL}/${id}`;
-        console.log('url >>> ', url);
-
-        axios
-          .delete(url)
-          .then(function (response) {
-            // console.log('DELETE:::', JSON.stringify(response, null, 2));
-            domMsg.innerHTML = response.statusText;
-
-            getPosts();
-          })
-          .catch(function (error) {
-            console.log('error:::', JSON.stringify(error, null, 2));
-
-            domMsg.innerHTML = error.response.data;
-          });
-        /*  end of axios */
-      }
-      /* end of deletePost(id) */
-
-      function modifyPost(event) {
-        // console.dir(event);
-        const target = event.target;
-        const targetType = event.target.dataset.type;
-        console.log('target:::', target);
-
-        // const targetTag = event.target.closest('li');
-        const targetTag = event.target.closest('tr');
-        const targetId = targetTag.dataset.id;
-        console.log('targetId:::', typeof targetId);
-        // const targetIdInt = Number(targetId);
-        // console.log('targetIdInt:::', targetIdInt);
-
-        if (!targetType) {
-          return null;
-        }
-
-        if (targetType === 'DELETE') {
-          console.log('targetType:::', targetType);
-          return deletePost(targetId);
-        }
-
-        if (targetType === 'EDIT') {
-          console.log('targetType:::', targetType);
-          return goToEditPost(targetId);
-        }
-      }
-      /* end of modifyPost() */
-
-      function postsTemplate(
-        posts,
-        template = `
-      <div class="table-responsive">
-        <table class="js-post-list  table align-middle table-sm table-hover">
-          <thead class="table-light text-center">
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">標題</th>
-              <th scope="col">內文</th>
-              <th scope="col"></th> 
-            </tr>
-          </thead>
-
-          <tbody class="">
-      `
-      ) {
-        posts.forEach((post) => {
-          const article = post.body ? post.body : '';
-
-          template += `
-            <tr  data-id="${post.id}">
-              <th scope="row">
-                <code>${post.id}</code>
-              </th>
-
-              <td>
-                ${post.title}
-              </td>
-              <td>
-                <article>${article}</article>
-              </td>
-
-              <td>
-                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                  
-                  <input data-type="DELETE"
-                  class="js-delete  btn btn-sm btn-outline-danger" type="button" value="刪除">
-
-                  <input data-type="EDIT"
-                  class="js-edit  btn btn-sm btn-warning" type="button" value="編輯">                  
-                </div>
-              </td>              
-            </tr>        
-        `;
-        });
-
-        template += `
-          </tbody>
-        </table>
-      </div>
-      `;
-
-        return template;
-      }
-      /* end of postsTemplate() */
-
-      function getPosts() {
-        const url = `${BASE_POST_URL}`;
-
-        axios
-          .get(url)
-          .then(function (response) {
-            // console.log('posts:::', JSON.stringify(response, null, 2));
-            const htmlContent = postsTemplate(response.data);
-            domPostList.innerHTML = htmlContent;
-          })
-          .catch(function (error) {
-            // console.log('error:::', JSON.stringify(error, null, 2));
-
-            domMsg.innerHTML = error.response.status;
-          });
-        /*  end of axios */
-      }
-      /* end of getPosts() */
-
-      function getLoggedID() {
-        return localStorage.getItem('userId') || 0;
-      }
-      /* end of hasLogged() */
-
-      /**
-       * #Step-0: after page refresh
-       */
-      function init() {
-        if (!getLoggedID()) {
-          window.location.replace('/');
-        }
-
-        const AUTH = `Bearer ${localStorage.getItem('token')}`;
-        axios.defaults.headers.common.Authorization = AUTH;
-
-        const userId = getLoggedID();
-        // const url = `/api/users/${userId}`;
-        const url = `${USERS_URL}/${userId}`
-
-        console.log('url >>> ', url);
-
-        axios
-          .get(url)
-          .then(function (response) {
-            // console.log('GET-Me:::', JSON.stringify(response, null, 2));
-
-            if (response.status === 200) {
-              // console.log('OK!');
-              const isAdmin = response.data?.role === 'admin';
-              if (!isAdmin) {
-                console.log('401!');
-                document.querySelector('.js-main').innerHTML = '';
-
-                window.location.replace('/');
-              }
-
-              if (isAdmin) {
-                getPosts();
-              }
-            }
-            /* end of res-OK */
-          })
-          .catch(function (error) {
-            // console.log('error:::', JSON.stringify(error, null, 2));
-
-            if (error?.response?.status === 401) {
-              console.log('401');
-              localStorage.clear();
-
-              window.location.replace('/login.html');
-            }
-
-            domMsg.innerHTML = error?.response?.status || error;
-          });
-        /*  end of axios */
-
-        document
-          .querySelector('.js-post-list')
-          .addEventListener('click', (event) => modifyPost(event));
-      }
-      /* end of init() */
-
-      // MAIN
-      init();
     </script>
     <!-- end of script -->
   </body>

@@ -192,6 +192,7 @@
       function saveUserToLocal({ accessToken, user }) {
         localStorage.setItem('token', accessToken);
         localStorage.setItem('userId', user.id);
+        localStorage.setItem('userAccountName', user.accountName);
       }
       /* end of saveUserToLocal() */
 
@@ -212,28 +213,31 @@
           password: form.password.value.trim(),
         };
 
+        
         const hasInput = data.email && data.password;
         if (hasInput) {
-          return axios
-            .post(url, data)
-            .then(function (response) {
-              console.log('signup:::', JSON.stringify(response, null, 2));
+        return axios
+          .post(url, data)
+          .then(function (response) {
+          console.log('signup:::', JSON.stringify(response, null, 2));
 
-              domMsg.innerHTML = response.statusText;
+          domMsg.innerHTML = response.statusText;
 
-              if (response.status === 201) {
-                saveUserToLocal(response.data);
-                window.location.replace('/page/login.html');
-              }
-              /*  end of IF-OK */
-            })
-            .catch(function (error) {
-              console.log('error:::', JSON.stringify(error, null, 2));
+          console.log("response",response.data);
 
-              domMsg.innerHTML = error?.response?.data || error;
-            });
+          if (response.status === 201) {
+          saveUserToLocal(response.data);
+          window.location.replace('/page/login.html');
+          }
+            /*  end of IF-OK */
+          })
+          .catch(function (error) {
+          console.log('error:::', JSON.stringify(error, null, 2));
+
+          domMsg.innerHTML = error?.response?.data || error;
+          });
           /*  end of axios */
-        }
+          }
         /* end of IF-hasInput */
 
         domMsg.innerHTML = 'pls input data';

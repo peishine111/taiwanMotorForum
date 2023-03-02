@@ -246,7 +246,7 @@
 
     <!-- MAIN -->
     <script>
-      const articlesList = document.querySelector(".articlesWrap");
+    const articlesList = document.querySelector(".articlesWrap");
       // console.log('articlesList',articlesList)
     let articlesData = [];
     function init(){
@@ -315,12 +315,15 @@
     btn2.addEventListener("click",(e)=>{
       let pageNumber=0;
       let filterData =[];
-      if(e.target.nodeName==="INPUT"){
-        // console.log("點到按鈕了!");
+      if(e.target.nodeName!=="INPUT"){
+        alert("您點選錯位置了");
+      }else{
+        console.log("點到按鈕了!");
         // console.log(e.target.value);
         pageNumber= parseInt(e.target.value);
         console.log(pageNumber);
       }
+      
       // 用取得分頁的值計算起始得索引(開始第幾筆)
       let start= (pageNumber-1)*perPage;
         // 用取得分頁的值加上一頁呈現幾筆計算出終末的索引(結束第幾筆) 

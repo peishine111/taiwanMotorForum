@@ -202,8 +202,7 @@
 
         localStorage.setItem('token', accessToken);
         localStorage.setItem('userId', user.id);
-        localStorage.setItem('nickname', user.nickname);
-        localStorage.setItem('avatar', user.avatar);
+        localStorage.setItem('accountName', user.accountName);
       }
       /* end of saveUserToLocal() */
 
@@ -241,7 +240,7 @@
                 // const isAdmin = response.data?.user?.role?.includes('admin');
                 const isAdmin = response.data?.user?.role === 'admin';
                 if (isAdmin) {
-                  redirectPath = 'admin/desk.html';
+                  redirectPath = '/page/admin/desk.html';
                 }
 
                 setTimeout(() => {
