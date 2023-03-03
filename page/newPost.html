@@ -337,9 +337,9 @@
       // 實作張貼新文章功能
       send.addEventListener("click",function(e){
       const token =localStorage.getItem('token');
-      console.log("token",token);
-      console.log(category.value);
-      console.log(title.value);
+      // console.log("token",token);
+      // console.log(category.value);
+      // console.log(title.value);
       const content = document.querySelector('.ck-content');
       console.log(content);
       const userId = localStorage.getItem('userId');
@@ -354,17 +354,25 @@
       
     axios
     .post(BASE_POST_URL,{
-      "id": articleData.length,
       "stickyTop": false,
       "title": title.value,
-      "userId": userId,
+      "userId": 5,
       "tab": category.value,
       "content": content,
       "createTime":  `${year}/${month}/${day} ${hours}:${minutes}`,
-      "comments":""
+      "comments": [
+        {
+          "id": 0,
+          "articleId": 0,
+          "userId": "",
+          "accountName": "",
+          "content": "",
+          "createTime": ""
+        }
+      ]
     },{
       headers:{
-        "authorization":`Bearer ${token}`
+        "Authorization":`Bearer ${token}`
         }
     })
     .then(function (response) {
