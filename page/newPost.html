@@ -69,6 +69,10 @@
         margin-left: -0.25px;
       }
 
+      .icon{
+        max-width: 50px;
+        width: 100%;
+      }
   </style>
   </head>
 
@@ -79,7 +83,7 @@
         <!-- Container-wrapper -->
         <section class="container-fluid">
           <!-- Navbar brand -->
-          <a class="navbar-brand me-2" href="/page/index.html"><img src="/page/images/motor.svg" alt=""></a>
+          <a class="navbar-brand me-2" href="/taiwanMotorForum/page/index.html"><img class="icon" src="https://imgur.com/ffz1WvF.png" alt=""></a>
 
           <!-- Toggle button -->
           <button
@@ -108,7 +112,7 @@
               </li> -->
 
               <li class="nav-item">
-                <a class="nav-link fw-bold" href="/page/index.html">台灣機車論壇</a>
+                <a class="nav-link fw-bold" href="/taiwanMotorForum/page/index.html">台灣機車論壇</a>
               </li>
             </ul>
             <!-- end of Left-links -->
@@ -151,13 +155,13 @@
         </li> -->
 
         <li class="nav-item ms-3 me-3">
-          <a class="nav-link" href="/page/motorSiteArticleLists.html">文章列表</a>
+          <a class="nav-link" href="/taiwanMotorForum/page/motorSiteArticleLists.html">文章列表</a>
         </li>
         <li class="nav-item me-3">
-          <a class="nav-link" href="/page/motorSiteEssence.html">精華區</a>
+          <a class="nav-link" href="/taiwanMotorForum/page/motorSiteEssence.html">精華區</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/page/motorSiteRules.html">版規</a>
+          <a class="nav-link" href="/taiwanMotorForum/page/motorSiteRules.html">版規</a>
         </li>
       </ul>
       <!-- end of Left-links -->
@@ -372,7 +376,7 @@
     .then(function (response) {
     // console.log('GET-Posts:::', JSON.stringify(response, null, 2));
     const data =response.data;
-    location.href=`/page/motorSiteArticleLists.html`
+    location.href=`/taiwanMotorForum/page/motorSiteArticleLists.html`
 
     })
     .catch(function (error) {
