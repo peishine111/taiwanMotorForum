@@ -280,7 +280,7 @@
               console.log( "articleBody", articleData);
               let str= `<h6>Author: ${articleData.user.accountName}</h6>
               <h3>${articleData.title}</h3>
-              <p class="d-flex justify-content-between">${articleData.createTime}<button type="button" onclick="javascript:location.href='/page/edit.html'" class="btn btn-outline-primary btn-sm">編輯</button></p>
+              <p class="d-flex justify-content-between">${articleData.createTime}<button type="button" onclick="javascript:location.href='/taiwanMotorForum/page/edit.html'" class="btn btn-outline-primary btn-sm">編輯</button></p>
               <textarea name="content" id="editor">
               ${articleData.content}
               </textarea>
@@ -343,7 +343,7 @@
       .then(res => {
       console.log("確認有編輯更新成功",res.data);
       renderPostInfo();
-      location.href=`/page/post.html?postId=${postId}`
+      location.href=`/taiwanMotorForum/page/post.html?postId=${postId}`
       });
       
       }

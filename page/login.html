@@ -237,15 +237,15 @@
               console.log('login:::', JSON.stringify(response, null, 2));
               
               domMsg.innerHTML = response.statusText;
-              window.location.href = '/page/motorSiteArticleLists.html';
+              window.location.href = '/taiwanMotorForum/page/motorSiteArticleLists.html';
               if (response.status === 200) {
                 saveUserToLocal(response.data);
 
-                let redirectPath = '/page/';
+                let redirectPath = '/taiwanMotorForum/page/motorSiteArticleLists.html';
                 // const isAdmin = response.data?.user?.role?.includes('admin');
                 const isAdmin = response.data?.user?.role === 'admin';
                 if (isAdmin) {
-                  redirectPath = '/page/admin/desk.html';
+                  redirectPath = '/taiwanMotorForum/page/admin/desk.html';
                 }
 
                 setTimeout(() => {
