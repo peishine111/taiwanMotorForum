@@ -163,13 +163,6 @@
           <!-- #NOTE: check IF-login and inject dropdown-btns -->
         </ul>
         <!-- end of User-btns -->
-
-        <div class="js-guest-menu">
-          <!-- #REVIEWS:  -->
-          <a href="post.html" class="btn btn-sm btn-primary px-3 me-5">
-            回復文章
-          </a>
-        </div>
         <!-- end of GUEST-btns -->
       </div>
     </div>
@@ -225,7 +218,7 @@
 
     <!-- MAIN -->
     <script>
-      // const BASE_URL = 'http://localhost:3000';
+      // const BASE_URL = 'https://taiwan-motor-forum-vercel.vercel.app';
       const BASE_POST_URL = `${BASE_URL}/articles`;
 
       const domMsg = document.querySelector('.js-msg');
@@ -252,7 +245,7 @@
         const postId = params.get('postId') || 1;
         console.log('postId:::', postId);
 
-        const url = `${BASE_POST_URL}/${postId}?_expand=user`;
+        const url = `https://taiwan-motor-forum-vercel.vercel.app/articles/${postId}?_expand=user`;
 
         axios
           .get(url)

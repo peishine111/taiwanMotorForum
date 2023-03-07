@@ -11,7 +11,7 @@
     <title>POST</title>
 
     <!-- ckeditor -->
-    <script src="https://cdn.ckeditor.com/ckeditor5/36.0.0/classic/ckeditor.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/34.1.0/classic/ckeditor.js"></script>
     
     <!-- Bootstrap CSS -->
     <link
@@ -201,8 +201,7 @@
             <br>
             <div class="form-group">
               <label for="exampleInputContent1">文章內容</label>
-              <textarea name="content" id="editor">
-              </textarea>
+              <textarea name="editor"></textarea>
             </div>
             <br>
             <div class="d-flex justify-content-center">
@@ -244,29 +243,23 @@
     <script>
 
       let data = "";
-    
+
       ClassicEditor
-          .create( document.querySelector( '#editor' ) )
+          .create( document.querySelector( 'textarea' ) )
           .then( editor => {
-            console.log( 'Editor was initialized', editor );
-            data = editor.getData();
-            console.log('data',data);
+            console.log( editor );
           } )
           .catch( error => {
-              console.error( error );
+            console.error( error );
           } );
-
       
-      // const BASE_URL = 'http://localhost:3000';
-      const BASE_POST_URL = `${BASE_URL}/600/articles`;
+      // const BASE_URL = 'https://taiwan-motor-forum-vercel.vercel.app';
+      const BASE_POST_URL = `https://taiwan-motor-forum-vercel.vercel.app/600/articles`;
       
       const category = document.querySelector('.category');
       console.log(category);
       const title = document.querySelector('#exampleInputTitle1');
       console.log(title);
-      const content = document.querySelector('.ck-content');
-      console.log('ck',content);
-
       const send = document.querySelector('.send');
       console.log(send);
 
@@ -286,10 +279,10 @@
         const postId = params.get('postId') || 1;
         console.log('postId:::', postId);
 
-        const url = `${BASE_URL}/articles?_expand=user`;
+        const url = `https://taiwan-motor-forum-vercel.vercel.app/articles?_expand=user`;
         
         axios
-          .get(url)
+          .get(`https://taiwan-motor-forum-vercel.vercel.app/articles?_expand=user`)
           .then(function (response) {
             // console.log('GET-Posts:::', JSON.stringify(response, null, 2));
 
@@ -337,12 +330,13 @@
       // 實作張貼新文章功能
       send.addEventListener("click",function(e){
       const token =localStorage.getItem('token');
+      const userId = localStorage.getItem('userId');
       // console.log("token",token);
       // console.log(category.value);
       // console.log(title.value);
-      const content = document.querySelector('.ck-content');
-      console.log(content);
-      const userId = localStorage.getItem('userId');
+      const content = document.querySelector('.ck-content').textContent;
+      console.log('ck',content);
+      
 
       const date = new Date();
       var minutes = date.getMinutes();
@@ -353,10 +347,10 @@
 
       
     axios
-    .post(BASE_POST_URL,{
+    .post(`https://taiwan-motor-forum-vercel.vercel.app/600/articles`,{
       "stickyTop": false,
       "title": title.value,
-      "userId": 5,
+      "userId": userId,
       "tab": category.value,
       "content": content,
       "createTime":  `${year}/${month}/${day} ${hours}:${minutes}`,
@@ -378,13 +372,15 @@
     .then(function (response) {
     // console.log('GET-Posts:::', JSON.stringify(response, null, 2));
     const data =response.data;
-
+    location.href=`/page/motorSiteArticleLists.html`
 
     })
     .catch(function (error) {
       console.log(error);
         });
     })
+
+    
     </script>
     <!-- end of script -->
   </body>

@@ -113,7 +113,7 @@
               </li> -->
 
               <li class="nav-item">
-                <a class="nav-link fw-bold" href="/page/index.html">台灣機車論壇</a>
+                <a class="nav-link fw-bold" href="/page/motorSiteArticleLists.html">台灣機車論壇</a>
               </li>
             </ul>
             <!-- end of Left-links -->
@@ -230,10 +230,10 @@
 
     <!-- MAIN -->
     <script>
-      // const BASE_URL = 'http://localhost:3000';
-      const BASE_POST_URL = `${BASE_URL}/644/articles`;
-      const BOOKMARKS_URL = `${BASE_URL}/600/bookmarks`;
-      const USERS_URL = `${BASE_URL}/600/users`;
+      // const BASE_URL = 'https://taiwan-motor-forum-vercel.vercel.app';
+      const BASE_POST_URL = `https://taiwan-motor-forum-vercel.vercel.app/644/articles`;
+      // const BOOKMARKS_URL = `${BASE_URL}/600/bookmarks`;
+      // const USERS_URL = `${BASE_URL}/600/users`;
 
       const domMsg = document.querySelector('.js-msg');
       const domPostList = document.querySelector('.articleBody');
@@ -325,7 +325,7 @@
       const token = localStorage.getItem('token');
       console.log(token);
 
-      const url = `${BASE_POST_URL}/${postId}?_expand=user`;
+      const url = `https://taiwan-motor-forum-vercel.vercel.app/644/articles/${postId}?_expand=user`;
 
       // console.log("點擊到提交了");
       axios.patch(url, {
@@ -336,9 +336,11 @@
         }
       })
       .then(res => {
-      console.log(res.data);
-      });
+      console.log("確認有編輯更新成功",res.data);
+      renderPostInfo();
       location.href=`/page/post.html?postId=${postId}`
+      });
+      
       }
     </script>
     <!-- end of script -->

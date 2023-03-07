@@ -162,7 +162,7 @@
     };
     init();
     function getArticlesList(){
-        axios.get(`http://localhost:3000/articles?_expand=user`)
+        axios.get(`https://taiwan-motor-forum-vercel.vercel.app/articles?_expand=user`)
         .then(function(res){
             console.log("檢查getArticlesList是否有印出資料",res.data);
             articlesData = res.data;
@@ -225,6 +225,7 @@
       let filterData =[];
       if(e.target.nodeName!=="INPUT"){
         alert("您點選錯位置了");
+        pageNumber=1;
       }else{
         console.log("點到按鈕了!");
         // console.log(e.target.value);
@@ -261,7 +262,7 @@
 }
     function deleteData(id){
       // console.log(id);
-      axios.delete(`http://localhost:3000/articles/${id}`)
+      axios.delete(`https://taiwan-motor-forum-vercel.vercel.app/articles/${id}`)
       .then(res => {
         console.log(res.data);
       });

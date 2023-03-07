@@ -93,6 +93,11 @@
         max-width: 500px;
         width: 100%;
       }
+
+      .searchBar{
+        max-width: 1000px;
+        width: 100%;
+      }
     </style>
   </head>
 
@@ -168,9 +173,20 @@
       <div class="col-md-12">
         <h1 class="display-5 fst-italic text-white">台灣最火熱的機車論壇，想知道什麼是防衛駕駛嗎?想要討論機車維修大小事嗎?歡迎參觀台灣機車論壇!</h1 >
           <div class="col-md-7 mx-auto py-5">
-            <div class="input-group mb-3">
-              <input type="text" class="form-control" placeholder="搜尋台灣機車論壇......" aria-label="搜尋台灣機車論壇" aria-describedby="searchButton">
-              <button class="btn btn-light" type="button" id="searchButton"><i class="bi bi-search"></i></button>
+            <div class="input-group mb-3 d-flex justify-content-start align-items-center flex-column">
+              <div class="d-flex searchBar">
+                <input type="text" class="form-control searchColumn" placeholder="搜尋台灣機車論壇......" aria-label="搜尋台灣機車論壇" aria-describedby="searchButton">
+                <button class="btn btn-light" type="button" id="searchButton"><i class="bi bi-search"></i></button>
+              </div>
+              <div id="spinner" class="d-flex justify-content-center align-items-center" style="display:none;">
+                <div class="spinner-border spinner text-primary d-none" role="status">
+                  <span class="visually-hidden">載入中...</span>
+                </div>
+              </div>
+              <ol class="searchResults d-none text-start bg-light m-3 p-5 rounded">
+                <!-- <li><a href="./post.html?postId=0" class="pe-auto ">安全駕駛vs防衛駕駛</a></li>
+                <li><a href="./post.html?postId=1" class="pe-auto ">人、車、路況特性大不同，防禦對策基本心法</a></li> -->
+              </ol>
             </div>
           </div>
       </div>
@@ -325,112 +341,55 @@
 
     <!-- MAIN -->
     <script>
-      // const BASE_URL = 'http://localhost:3000';
-      const BASE_POST_URL = `${BASE_URL}/664/posts`;
-
-      const domMsg = document.querySelector('.js-msg');
-      const domPostList = document.querySelector('.js-post-list');
-      /* end of definition */
-
-      function getLoggedID() {
-        return localStorage.getItem('userId') || 0;
-      }
-      /* end of hasLogged() */
-
-      /**
-       * #Step-2: print html with post list
-       * @param { Array } posts
-       * @param { String } template
-       * @returns { String } htmlContent
-       */
-      function templateOfPosts(posts, template = ``) {
-        console.log('posts:::', JSON.stringify(posts, null, 2));
-        /*
-         * #NOTE: Array.forEach() do NOT `return`
-         */
-        posts.forEach(function (post) {
-          /**
-           * - IF post.body === null
-           *   THEN return '' to display nothing
-           *
-           * @type { String } article
-           */
-          const article = post.body ? post.body : '';
-
-          // <small class="text-muted">
-          //   <code>${post.id}</code>
-          // </small>
-          template += `
-            <li
-              data-id='${post.id}'
-              class="col-sm-6 col-lg-4 mb-4"
-            >
-              <div class="card">
-                <section class="card-body">
-
-                  <div class="d-flex justify-content-end align-items-center p-0">
-                    <a href="./post.html?postId=${post.id}" class="pe-auto">延伸閱讀</a>
-                  </div>
-
-                  <h3 class="card-title  text-truncate">
-                    ${post.title}
-                  </h3>
-
-                  <article class="card-text  text-truncate">
-                    ${article}
-                  </article>
-
-                </section>
-              </div>
-            </li>
-          `;
-        });
-        /* end of posts.forEach() */
-
-        return template;
-      }
-      /* end of templateOfPosts() */
-
-      /**
-       * #Step-1: `GET` data from API
-       */
-      function renderPosts() {
-        const url = `${BASE_POST_URL}`;
-
-        axios
-          .get(url)
-          .then(function (response) {
-            // console.log('GET-Posts:::', JSON.stringify(response, null, 2));
-
-            if (response.status === 200) {
-              // #Step-2
-              const postsData = response.data;
-              const htmlContent = templateOfPosts(postsData);
-
-              // #Step-3
-              domPostList.innerHTML = htmlContent;
-            }
-            /* end of res-OK */
-          })
-          .catch(function (error) {
-            // console.log('error:::', JSON.stringify(error, null, 2));
-
-            domMsg.innerHTML = error?.response?.status || error;
-          });
-        /*  end of axios */
-      }
-      /* end of renderPosts() */
-
       /**
        * #Step-0: after page refresh
        */
       function init() {
-        renderPosts();
+        
       }
       /* end of init() */
 
       // MAIN
       init();
+
+      const searchColumn = document.querySelector(".searchColumn");
+      // console.log(searchColumn);
+      const searchButton = document.querySelector("#searchButton");
+      // console.log(searchButton);
+      const searchResults = document.querySelector(".searchResults");
+      console.log(searchResults);
+
+      const spinner = document.querySelector(".spinner");
+
+      let searchList = [];
+
+      searchButton.addEventListener("click",function(e){
+        const keyWord = searchColumn.value;
+        searchResults.classList.remove("d-none");
+        spinner.classList.remove("d-none");
+        getSearchResults(keyWord);
+      })
+
+      function getSearchResults(keyWord){
+        let str="";
+        axios.get(`https://taiwan-motor-forum-vercel.vercel.app/articles?q=${keyWord}`)
+        .then(function(res){
+            spinner.classList.add("d-none");
+            console.log("檢查searchList是否有印出資料",res.data);
+            searchList = res.data;
+            searchList.forEach(item => {
+              str+= `<li><a href="./post.html?postId=${item.id}" class="pe-auto ">${item.title}</a></li>`
+            });
+            searchResults.innerHTML= str;
+            })
+        .catch(function(error) {
+        // 請求失敗，隱藏 spinner
+        spinner.classList.add("d-none");
+        // 處理錯誤訊息
+        console.error(error);
+      });
+           
+    };
     </script>
     <!-- end of script -->
   </body>

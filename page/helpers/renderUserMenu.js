@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = 'https://taiwan-motor-forum-vercel.vercel.app';
 
 const btnUserMenu = document.querySelector('.js-user-menu');
 
